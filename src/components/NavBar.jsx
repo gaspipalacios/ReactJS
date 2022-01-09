@@ -1,6 +1,7 @@
 import React from "react";
+import CartWidget from "./CartWidget";
 
-export default function NavBar(){
+export default function NavBar({arrayNav}){
     
     return(
         <>
@@ -8,10 +9,9 @@ export default function NavBar(){
             <h1>Melody Clothes</h1>
             <nav>
                 <ul>
-                    <li><a href="">Prendas</a></li>
-                    <li><a href="">Descuentos</a></li>
-                    <li><a href="">Contacto</a></li>
+                    {arrayNav.map(item => <li>{item}</li>)}
                 </ul>
+                <CartWidget />
             </nav>
         </header>
         </>
