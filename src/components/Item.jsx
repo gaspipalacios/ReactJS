@@ -1,8 +1,9 @@
 import React from "react";
 import ItemCount from "./ItemCount";
+import { BrowserRouter, Switch, Route, useParams, Link } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Card, Container, Row, Col } from 'react-bootstrap';
+import { Button, Card, Container, Row, Col, NavLink } from 'react-bootstrap';
 
 export default function Item({prod}){
 
@@ -20,10 +21,10 @@ export default function Item({prod}){
         <>
         {   
             <Col xs={12} lg={6} xl={3} xxl={2}>
-            <Card className="mb-3">
+            <Card className="mb-3 text-center">
                 <Card.Img src="https://picsum.photos/1200/1080" alt="Imagen Producto" />
                 <Card.Body>
-                    <Card.Title>{prod.name}</Card.Title>
+                    <Link to={`/item/${prod.id}`}><Card.Title>{prod.name}</Card.Title></Link>
                     <Card.Text>Precio: {prod.price}</Card.Text>
                     <Card.Text>Cantidad disponible: {prod.stock}</Card.Text>
                     <ItemCount max = {prod.stock}/> <br />

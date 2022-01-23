@@ -1,15 +1,13 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import ItemDetail from './ItemDetail';
 
-import { Container } from "react-bootstrap";
-import ItemList from "./ItemList";
+export default function () {
 
-export default function ItemListContainer(){
+    const { itemId } = useParams();
 
-    const[arrayItems, setArrayItems] = useState([]);
-    const { catId } = useParams();
-
-    const products = new Promise((resolve, reject)=>{
+    const [arrayItemId, setArrayItemId] = useState([]);
+    const products = new Promise((resolve, reject) => {
 
         setTimeout(() => {
 
@@ -29,33 +27,36 @@ export default function ItemListContainer(){
                     { id: '012', catId: '04', name: 'Sobre 2', price: '$1780', stock: 3, category: 'accesorios', description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab eaque laudantium quia, totam minus non porro velit placeat voluptatum maiores quasi veniam expedita praesentium animi quos nisi soluta voluptatem nam' ,img: 'url' },
                     { id: '013', catId: '04', name: 'Piluso', price: '$750', stock: 3, category: 'accesorios', description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab eaque laudantium quia, totam minus non porro velit placeat voluptatum maiores quasi veniam expedita praesentium animi quos nisi soluta voluptatem nam' ,img: 'url' }
                 ]);
+                
 
-            }, 2000)        
-        });
+        }, 2000)
+    });
 
-    useEffect(()=>{
+    useEffect(() => {
         products
-            .then(res=>{
-                (catId == undefined)?
-                setArrayItems(res)
-                :
-                setArrayItems(res.filter(item => item.catId == catId));
+            .then(res => {
+                setArrayItemId(res.filter(item => item.id == itemId)[0]);
                 
             })
-            .catch((err)=>{
+            .catch((err) => {
                 console.log(err);
             })
-            console.log(catId);
-    },[catId]);
-   
-    return(
-        
+    }, [itemId]);
+
+    
+    const onAdd = () => {alert(`Agregaste ${arrayItemId.name} a tu carrito`)}
+
+    const conditionAdd = () => {if (arrayItemId.stock > 0) {
+        onAdd()
+    }}
+
+    return (
+
         <>
-        <Container>
-        <>
-            {<ItemList arrayItems={arrayItems}/>}
+            {
+                <ItemDetail arrayItemId={arrayItemId} conditionAdd={conditionAdd} />
+            }
         </>
-        </Container>
-        </>
+
     )
 }
