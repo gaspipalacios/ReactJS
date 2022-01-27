@@ -22,13 +22,12 @@ export default function Item({prod}){
         {   
             <Col xs={12} lg={6} xl={3} xxl={2}>
             <Card className="mb-3 text-center">
-                <Card.Img src="https://picsum.photos/1200/1080" alt="Imagen Producto" />
+                <Card.Img src="https://picsum.photos/1080" alt="Imagen Producto" />
                 <Card.Body>
-                    <Link to={`/item/${prod.id}`}><Card.Title>{prod.name}</Card.Title></Link>
+                    <Card.Title>{prod.name}</Card.Title>
                     <Card.Text>Precio: {prod.price}</Card.Text>
                     <Card.Text>Cantidad disponible: {prod.stock}</Card.Text>
-                    <ItemCount max = {prod.stock}/> <br />
-                    <Button variant="secondary" onClick={conditionAdd}>Agregar al carrito</Button>
+                    <Link to={`/item/${prod.id}`}><Button variant='secondary'>Vista detallada</Button></Link>
                 </Card.Body>
             </Card>
             </Col>
