@@ -44,11 +44,11 @@ export default function ItemDetailContainer() {
 
     }, [itemId]);
 
-    const { showItemCount, setShowItemCount } = useState([true]);
+    const { showItemCount, setShowItemCount } = useState(true);
     const onAdd = quant => {
 
         alert(`Agregaste ${quant} unidades de ${arrayItemId.name} a tu carrito`);
-        setShowItemCount([false]);
+        setShowItemCount(false);
     };
         console.log(showItemCount);
         
