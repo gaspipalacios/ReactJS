@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from "react";
 
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, ButtonGroup, Row, Col } from 'react-bootstrap';
 
 export default function ItemCount({ max, onAdd, initial }) {
-    
+
     const [quant, setQuant] = useState(initial);
+
+    useEffect(() => {
+        setQuant(initial);
+    }, [initial]);
 
     const Sumar = () => {
         if (quant < max) setQuant(quant + 1)
     };
-    
-    const Restar = () =>{
+
+    const Restar = () => {
         if (quant > 0) setQuant(quant - 1)
     };
 
     const addIf = () => {
-        (quant > 0)?
+        (quant > 0) ?
             onAdd(quant)
             :
             alert('Suma al menos una unidad a tu carrito')
@@ -36,7 +41,7 @@ export default function ItemCount({ max, onAdd, initial }) {
 
             <Row className="justify-content-center">
                 <Col >
-                    <Button variant="secondary" onClick={addIf}>Agregar al carrito</Button>
+                    <Button variant="secondary" onClick={addIf} >Agregar al carrito</Button>
                 </Col>
             </Row>
 
