@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { context } from '../contexts/CartContext';
 import { useParams } from 'react-router-dom';
+import { getFirestore } from '../firebase/firebase';
 import ItemDetail from './ItemDetail';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -17,7 +18,7 @@ export default function ItemDetailContainer() {
 
     const { itemId } = useParams();
 
-    const products = new Promise((resolve, reject) => {
+    {/* const products = new Promise((resolve, reject) => {
 
         setTimeout(() => {
 
@@ -40,9 +41,10 @@ export default function ItemDetailContainer() {
 
 
         }, 2000)
-    });
+    }); 
+    */}
 
-    useEffect(() => {
+    {/* useEffect(() => {
         products
             .then(res => {
                 setArrayItemId(res.filter(item => item.id === itemId)[0]);
@@ -52,8 +54,31 @@ export default function ItemDetailContainer() {
                 console.log(err);
             })
 
-    }, [itemId]);
+    }, [itemId]);  
+    */}
 
+    useEffect(() => {
+        const dataBase = getFirestore()
+        const itemCollection = dataBase.collection('items')
+        const myItem = itemCollection.doc(itemId)
+
+        myItem.get()
+            .then((doc) => {
+
+                if(!doc.exists){
+                    console.log('No existe el doc')
+                    return
+                }
+                
+                console.log('Item encontrado')
+                setArrayItemId({id: doc.id, ...doc.data()})
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+
+
+    }, [itemId])
 
     useEffect(() => {
         arrayItemId.stock > 0 ?

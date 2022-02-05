@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
+import { getFirestore } from '../firebase/firebase';
 
-import { Container } from "react-bootstrap";
+import LinearProgress from '@mui/material/LinearProgress';
+import Box from '@mui/material/Box';
+
+import { Container, Row } from "react-bootstrap";
 import ItemList from "./ItemList";
 
 export default function ItemListContainer() {
 
     const [arrayItems, setArrayItems] = useState([]);
     const { catId } = useParams();
+    const [loading, setLoading] = useState(true);
 
-    const products = new Promise((resolve, reject) => {
+    {/* const products = new Promise((resolve, reject) => {
 
         setTimeout(() => {
 
@@ -30,9 +35,9 @@ export default function ItemListContainer() {
                     { id: '013', catId: '04', name: 'Piluso', price: 750, stock: 3, category: 'accesorios', description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab eaque laudantium quia, totam minus non porro velit placeat voluptatum maiores quasi veniam expedita praesentium animi quos nisi soluta voluptatem nam', img: 'url' }]);
 
         }, 2000)
-    });
+    }) */}
 
-    useEffect(() => {
+    {/* useEffect(() => {
         products
             .then(res => {
                 (catId == undefined) ?
@@ -45,16 +50,46 @@ export default function ItemListContainer() {
                 console.log(err);
             })
         console.log(catId); 
+    }, [catId]) */}
+
+    useEffect(() => {
+        const dataBase = getFirestore()
+        const itemCollection = catId ? dataBase.collection('items').where('catId', '==', catId) : dataBase.collection('items')
+
+        itemCollection.get()
+            .then((querySnapShot) => {
+
+                if (querySnapShot.size == 0) {
+                    console.log('No hay documentos en el query')
+                    return
+                }
+
+                console.log('Hay documentos')
+                setArrayItems(querySnapShot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
+                setLoading(false);
+            })
+
     }, [catId]);
 
     return (
 
         <>
-            <Container>
-                <>
-                    {<ItemList arrayItems={arrayItems} />}
-                </>
-            </Container>
+            {
+                loading ?
+                    <Container style={{ minHeight: '100vh' }}>
+                        <Row >
+                            <Box sx={{ width: '100%' }}>
+                                <LinearProgress />
+                            </Box>
+                        </Row>
+                    </Container>
+                    :
+                    <Container style={{ minHeight: '100vh' }}>
+                        <>
+                            {<ItemList arrayItems={arrayItems} />}
+                        </>
+                    </Container>
+            }
         </>
     )
 }

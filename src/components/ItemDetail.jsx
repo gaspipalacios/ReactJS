@@ -26,12 +26,15 @@ export default function ItemDetail({ arrayItemId, onAdd, showItemCount, initial 
                                 (showItemCount) ?
 
                                     <ItemCount max={arrayItemId.stock} onAdd={onAdd} initial={initial} />
-
                                     :
-
-                                    <Link to={'/cart'} style={{ textDecoration: 'none' }} ><Button variant='secondary'>Finalizar compra</Button></Link>
-
-
+                                    <Container >
+                                        <Row>
+                                            <Link to={'/cart'} style={{ textDecoration: 'none' }} ><Button variant='secondary' className='m-1'>Finalizar compra</Button></Link>
+                                        </Row>
+                                        <Row>
+                                            <Link to={'/'} style={{ textDecoration: 'none' }} ><Button variant='warning' className='m-1'>Continuar comprando</Button></Link>
+                                        </Row>
+                                    </Container>
                             }
                         </Card.Body>
                     </Card>

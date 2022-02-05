@@ -45,10 +45,14 @@ export default function CartContext({ children }) {
 
     const isInCart = checkItem => checkItem.length === 0;
 
+    const cartTotal = Object.values(cart).reduce((t, {precioTotal}) => t + precioTotal, 0)
+
+    const cartTotalQuant = Object.values(cart).reduce((t, {cantidad}) => t + cantidad, 0)
+
 
     return (
         <>
-            <context.Provider value={{ cart, addItem, removeItem, clearCart }}>
+            <context.Provider value={{ cart, addItem, removeItem, clearCart, cartTotal, cartTotalQuant }}>
                 {children}
             </context.Provider>
         </>
