@@ -4,11 +4,11 @@ import React, { useState, useEffect } from 'react';
 import NavBar from './components/NavBar';
 import ItemListContainer from './components/ItemListContainer';
 import ItemDetailContainer from './components/ItemDetailContainer';
-import Cart from './components/CartContainer';
+import Cart from './components/Cart';
 import Footer from './components/Footer';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import CartContext from './contexts/CartContext';
-import CartContainer from './components/CartContainer';
+
 
 
 export default function App() {
@@ -55,7 +55,7 @@ export default function App() {
 
             {/* RUTA CARRITO */}
             <Route exact path="/cart">
-              <CartContainer />
+              <Cart />
             </Route>
 
           </Switch>
