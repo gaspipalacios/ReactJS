@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
-
 import { Link } from 'react-router-dom';
 
 import ItemCount from './ItemCount';
 
+//BOOTSTRAP Framework
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Card, Container, Row, Col } from 'react-bootstrap';
+import { Button, Card, Container, Row, Col, Carousel } from 'react-bootstrap';
 
 export default function ItemDetail({ arrayItemId, onAdd, showItemCount, initial }) {
 
@@ -14,9 +13,34 @@ export default function ItemDetail({ arrayItemId, onAdd, showItemCount, initial 
         <>
             <Row className="justify-content-center">
                 <Col xl={6}>
-                    <Card className="mb-3 text-center">
-                        <Card.Img src="https://picsum.photos/1080" alt="Imagen Producto" />
-                        <Card.Body>
+                    <Card bg="dark" className="my-3 text-center">
+                        <Carousel>
+                            <Carousel.Item >
+                                <img
+                                    className="d-block w-100"
+                                    src={arrayItemId.img}
+                                    alt="Primera foto"
+                                />
+                                
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img
+                                    className="d-block w-100"
+                                    src={arrayItemId.img2}
+                                    alt="Segunda foto"
+                                />
+
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img
+                                    className="d-block w-100"
+                                    src={arrayItemId.img3}
+                                    alt="Tercera foto"
+                                />
+
+                            </Carousel.Item>
+                        </Carousel>
+                        <Card.Body style={{ color: '#f8f9fa' }}>
                             <Card.Title>{arrayItemId.name}</Card.Title>
                             <Card.Text>Precio: $ {arrayItemId.price}</Card.Text>
                             <Card.Text>Cantidad disponible: {arrayItemId.stock}</Card.Text>
@@ -40,7 +64,6 @@ export default function ItemDetail({ arrayItemId, onAdd, showItemCount, initial 
                     </Card>
                 </Col>
             </Row>
-
         </>
 
     )

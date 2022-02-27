@@ -1,45 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { context } from '../contexts/CartContext';
 
+//BOOTSTRAP Framework
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Card, Container, Row, Col, Alert } from 'react-bootstrap';
-import { getFirestore } from "../firebase/firebase";
+import { Button, ButtonGroup, Card, Container, Row, Col, Alert } from 'react-bootstrap';
 
-export default function CartContainer() {
+export default function Cart() {
 
-    const { cart, clearCart, cartTotal, removeItem } = useContext(context);
-    const [orderId, setOrderId] = useState(''); 
-
-    useEffect(() => {
-        const dataBase = getFirestore()
-        const orders = dataBase.collection('orders')
-        
-        const newOrder = {
-            buyer: { name: 'Gaspar', mail: 'asdasd@gmail.com', phone: '35461254545' },
-            items: cart,
-            total: cartTotal
-        }
-
-        orders.add(newOrder)
-            .then(({id}) => {
-                console.log('Orden ingresada: ' + id)
-                setOrderId(id)
-            })
-            .catch((err) => {
-                console.log(err);
-            })    
-
-        console.log(newOrder);
-    }, [])
-
-
+    const { cart, clearCart, cartTotal, removeItem, deductUnit, addUnit } = useContext(context);
 
     return (
         <>
             {
                 cart.length === 0 ?
-                    <Container style={{ minHeight: '100vh' }}>
+                    <Container className='pt-3' style={{ minHeight: '100vh' }}>
                         <Alert variant='warning'>
                             Parece que el carrito está vacío, elegí algunos productos!!!
                         </Alert>
@@ -52,15 +27,20 @@ export default function CartContainer() {
                                 cart.map(item =>
 
                                     <Col xs={12} lg={6} xl={3} xxl={2} >
-                                        <Card className="mb-2 bg-dark text-white">
+                                        <Card className="my-2 bg-dark text-white">
 
-                                            <Card.Img src="https://picsum.photos/1080" alt="Imagen Producto" />
+                                            <Card.Img src={item.img} alt="Imagen Producto" />
                                             <Card.Body>
                                                 <Card.Title>{item.nombre}</Card.Title>
                                                 <Card.Text>Precio: $ {item.precio}</Card.Text>
                                                 <Card.Text>Cantidad: {item.cantidad}</Card.Text>
                                                 <Card.Text>Total: $ {item.precioTotal}</Card.Text>
                                             </Card.Body>
+
+                                            <ButtonGroup aria-label="count" className="mb-2">
+                                                <Button variant="secondary" onClick={() => deductUnit(item.id, item.cantidad)}>-</Button>
+                                                <Button variant="secondary" onClick={() => addUnit(item.id)}>+</Button>
+                                            </ButtonGroup>
                                             <Button onClick={() => removeItem(item.id)} variant='secondary'>Quitar del carrito</Button>
                                         </Card>
                                     </Col>)
@@ -69,7 +49,7 @@ export default function CartContainer() {
                         <Row>
                             <Alert variant='dark' className='mx-2 mb-2'>
                                 El total de tu carrito es: <strong> $ {cartTotal}</strong>
-                                <Button variant='warning' className='mx-2'>Finalizar compra</Button>
+                                <Link to={'/myOrder'} style={{ textDecoration: 'none' }}><Button variant='warning' className='mx-2'>Finalizar compra</Button></Link>
                             </Alert>
                         </Row>
                         <Row>

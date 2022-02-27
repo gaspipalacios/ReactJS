@@ -1,26 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import NavBar from './components/NavBar';
 import ItemListContainer from './components/ItemListContainer';
 import ItemDetailContainer from './components/ItemDetailContainer';
 import Cart from './components/Cart';
 import Footer from './components/Footer';
+import CreateOrder from './components/CreateOrder';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import CartContext from './contexts/CartContext';
 
 
-
 export default function App() {
 
-  const arrayNav = [
-    { section: 'Home', url: '/' },
-    { section: 'Contacto', url: '/' }
-  ];
-
   const [prodSection, setProdSection] = useState([
-    { id: '01', section: 'Remeras' },
-    { id: '02', section: 'Pantalones' },
+    { id: '01', section: 'Remeras y Tops' },
+    { id: '02', section: 'Vestidos' },
     { id: '03', section: 'Shorts' },
     { id: '04', section: 'Accessorios' }
 
@@ -30,8 +23,8 @@ export default function App() {
     <>
       <BrowserRouter >
         <CartContext>
-          <NavBar arrayNav={arrayNav} prodSection={prodSection} />
-
+          <NavBar prodSection={prodSection} />
+          <div  style={{ backgroundColor: '#f8f9fa' }}>
           <Switch>
             {/* RUTA HOME */}
             <Route exact path="/">
@@ -58,8 +51,13 @@ export default function App() {
               <Cart />
             </Route>
 
-          </Switch>
+            {/* RUTA CREAR ORDEN */}
+            <Route exact path="/myOrder">
+              <CreateOrder />
+            </Route>
 
+          </Switch>
+          </div>
           <Footer />
         </CartContext>
       </BrowserRouter>
